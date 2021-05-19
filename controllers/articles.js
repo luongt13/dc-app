@@ -58,9 +58,14 @@ console.log(newArticle)
     }
 }
 
-const updateAllArticle = async (req,res) => {
+const updateArticle = async (req,res) => {
     try {
-
+        let article = await Article.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        if (article) {
+            return res.status(200).json(article)
+        } else {
+            return res.status(404).send("article not found")
+        }
     } catch(err) {
         return res.status(500).json({error: err.message})
     }
@@ -70,5 +75,5 @@ const updateAllArticle = async (req,res) => {
     
 // }
 
-module.exports = {getAllArticles, getArticle, createArticle}
-// , updateAllArticle, deleteArticle
+module.exports = {getAllArticles, getArticle, createArticle, updateArticle}
+// , deleteArticle
