@@ -17,3 +17,13 @@ export const getArticle = async (id) => {
         throw err
     }
 }
+
+export const searchArticle = async(req,res) => {
+    console.log(req)
+    try {
+        const res = await api.put("/articles", {search: req})
+        return res.data
+    } catch(err) {
+        throw err
+    }
+}

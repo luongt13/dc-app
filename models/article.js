@@ -21,5 +21,5 @@ const articleSchema = new Schema (
     {timestamps: true}
 
 )
-articleSchema.index({name: 'text', 'content.detail': 'text'})
+// articleSchema.index({name: 'text', 'content.detail': 'text'})
 module.exports = mongoose.model("Article", articleSchema)

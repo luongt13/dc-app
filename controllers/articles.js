@@ -89,7 +89,7 @@ const deleteArticle = async (req,res) => {
 const searchArticle = async (req,res) => {
     try {
         console.log(req.body)
-        let find = await Article.find({ $text: { $search: req.body.search}})
+        let find = await Article.find({title: { $regex: req.body.search, $options: "i"}})
         return res.status(200).json(find)
     } catch(err) {
         return res.status(500).json({error: err.message})
