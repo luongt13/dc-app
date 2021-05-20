@@ -3,6 +3,7 @@ const Article = require("../models/article.js")
 const Content = require("../models/content.js")
 const Section = require("../models/section.js")
 const Reference = require("../models/reference.js")
+const { response } = require("express")
 
 db.on("error", console.error.bind(console, "connection error"))
 
@@ -71,9 +72,27 @@ const updateArticle = async (req,res) => {
     }
 }
 
-// const deleteArticle = async () => {
-    
-// }
+const deleteArticle = async (req,res) => {
+    try {
+        let article = await Article.findByIdAndDelete(req.params.id)
+        if(article) {
+            return res.status(404).json(article)
+        } else {
+            return res.status(404).send("article not found")
+        }
 
-module.exports = {getAllArticles, getArticle, createArticle, updateArticle}
-// , deleteArticle
+    } catch(err) {
+        return res.status(500).json({error: err.message})
+    }
+}
+
+const searchArticle = async (req,res) => {
+    try {
+        console.log(req.body)
+        let find = await Article.find({ $text: { $search: req.body.search}})
+        return res.status(200).json(find)
+    } catch(err) {
+        return res.status(500).json({error: err.message})
+    }
+}
+module.exports = {getAllArticles, getArticle, createArticle, updateArticle, deleteArticle, searchArticle}
